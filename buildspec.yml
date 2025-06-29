@@ -26,8 +26,12 @@ phases:
 
   post_build:
     commands:
-      - echo Uploading to S3...
-      - aws s3 cp demo-web-app s3://$S3_BUCKET/rc
+      # Derive a release candidate label
+      - VERSION=$(git rev-parse --short HEAD)
+      - TIMESTAMP=$(date +%Y%m%d%H%M%S)
+      - RC_TAG=rc-${VERSION}-${TIMESTAMP}
+      - echo "Tagging as: $RC_TAG"
+      - aws s3 cp demo-web-app s3://$S3_BUCKET/releases/$RC_TAG/demo-web-app
 
 artifacts:
   files:
