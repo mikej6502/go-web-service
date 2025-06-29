@@ -19,15 +19,10 @@ phases:
 
   build:
     commands:
+      - echo Running Unit Tests
+      - go test ./...
       - echo Compiling Go binary...
       - go build -o demo-web-app .
-
-  post_build:
-    commands:
-      - echo Running tests...
-      - go test -v ./...
-      - echo Uploading demo-web-app to S3 bucket: $S3_BUCKET
-      - echo aws s3 cp demo-web-app s3://$S3_BUCKET/rc
 
 artifacts:
   files:
