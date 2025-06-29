@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create a private S3 bucket without versioning for Release Candidates
+
+Resources:
+  DemoWebAppBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: demo-web-app-bucket-84751-rc
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+Outputs:
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref DemoWebAppBucket
+  BucketArn:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt DemoWebAppBucket.Arn
