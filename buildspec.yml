@@ -1,0 +1,34 @@
+version: 0.2
+
+env:
+  variables:
+    S3_BUCKET: "your-bucket-name"
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.24
+    commands:
+      - echo Installing dependencies...
+      - go mod tidy
+
+  pre_build:
+    commands:
+      - echo Running go vet for static analysis...
+      - go vet ./...
+
+  build:
+    commands:
+      - echo Compiling Go binary...
+      - go build -o demo-web-app .
+
+  post_build:
+    commands:
+      - echo Running tests...
+      - go test -v ./...
+      - echo Uploading demo-web-app to S3 bucket: $S3_BUCKET
+      - echo aws s3 cp demo-web-app s3://$S3_BUCKET/rc
+
+artifacts:
+  files:
+    - demo-web-app
