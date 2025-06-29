@@ -25,8 +25,9 @@ phases:
       - go build -o demo-web-app .
 
   post_build:
-    - echo Uploading to S3...
-    - aws s3 cp demo-web-app s3://$S3_BUCKET/rc
+    commands:
+      - echo Uploading to S3...
+      - aws s3 cp demo-web-app s3://$S3_BUCKET/rc
 
 artifacts:
   files:
